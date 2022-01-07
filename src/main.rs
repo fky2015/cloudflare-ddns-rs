@@ -1,29 +1,17 @@
-
-
 use dotenv::dotenv;
 use std::env;
 use anyhow::Error as AnyError;
-use pnet::datalink;
-use pnet::ipnetwork;
+use pnet::{ datalink, ipnetwork };
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-
 use thiserror::Error;
 
 #[derive(Debug, Error)]
 enum ClientError {
-    #[error("data store disconnected")]
+    #[error("Please select the right device.")]
     MissingDevice,
-    #[error("data store disconnected")]
-    RequestError,
     #[error(transparent)]
     Other(#[from] anyhow::Error),
-}
-
-fn get_default_interface() -> Option<datalink::NetworkInterface> {
-    datalink::interfaces()
-        .into_iter()
-        .find(|iface| !iface.is_loopback() && iface.is_up() && !iface.ips.is_empty())
 }
 
 fn get_ip_by_device_name(dev_name: String) -> Option<ipnetwork::IpNetwork> {
