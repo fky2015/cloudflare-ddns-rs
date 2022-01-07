@@ -1,4 +1,4 @@
-use reqwest;
+
 
 use dotenv::dotenv;
 use std::env;
@@ -7,7 +7,7 @@ use pnet::datalink;
 use pnet::ipnetwork;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use std::net::IpAddr;
+
 use thiserror::Error;
 
 #[derive(Debug, Error)]
@@ -95,7 +95,7 @@ async fn update_dns(zone: String, token: String, target_name: String, target_ip:
         return Ok(());
     }
 
-    record.content = target_ip.into();
+    record.content = target_ip;
     println!("body = {:#?}", record);
 
     let ret = client
